@@ -26,4 +26,11 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- 上传文件的设置 ，maxUploadSize=-1，表示无穷大。uploadTempDir为上传的临时目录 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="-1"/>
+        <property name="uploadTempDir" value="fileUpload/temp"/>
+    </bean>
+
 </beans>

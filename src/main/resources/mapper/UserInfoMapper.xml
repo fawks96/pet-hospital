@@ -137,4 +137,6 @@
   <select id="findUserByName" parameterType="String" resultType="com.chatRobot.model.UserInfo">
     select * from user where name = #{username}
   </select>
+
+
 </mapper>

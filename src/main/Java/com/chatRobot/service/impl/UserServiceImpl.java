@@ -27,6 +27,14 @@ public class UserServiceImpl implements IUserService {
         }
         return null;
     }
+
+    public UserInfo addUser(UserInfo user)
+    {
+        //userDao.adduser(user);
+        userDao.insert(user);
+        return user;
+    }
+
 }
 
 /*@Service("userService")

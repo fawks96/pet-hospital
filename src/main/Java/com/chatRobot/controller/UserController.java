@@ -3,7 +3,6 @@ package com.chatRobot.controller;
 /**
  * Created by starr on 2018/3/7.
  */
-import javax.servlet.http.HttpServletRequest;
 
 import com.chatRobot.model.UserInfo;
 import com.chatRobot.service.IUserService;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.*;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -25,9 +25,9 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    loginRes login(@RequestBody Map<String,String> map) throws Exception {
+    loginRes login(@RequestBody Map<String, String> map) throws Exception {
         // user = userService.checkLogin(user.getUsername(), user.getPassword());
-       // String username = request.getParameter("username");
+        // String username = request.getParameter("username");
         //String password = request.getParameter("password");
         String username = map.get("username");
         String password = map.get("password");
@@ -43,8 +43,25 @@ public class UserController {
         return myRes;
 
     }
-}
 
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public @ResponseBody
+    loginRes register(@RequestBody UserInfo user) throws Exception {
+
+
+        UserInfo res_user = userService.addUser(user);
+
+        loginRes myRes = new loginRes();
+        if (user != null) {
+            myRes.setStatus("Ok");
+            myRes.setUser(res_user);
+        } else {
+            myRes.setStatus("Fail");
+        }
+        return myRes;
+
+    }
 
 
 
@@ -63,4 +80,4 @@ public class UserController {
         response.getWriter().write(mapper.writeValueAsString(user));
         response.getWriter().close();
     }*/
-
+}

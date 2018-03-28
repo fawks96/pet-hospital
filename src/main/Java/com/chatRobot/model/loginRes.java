@@ -1,8 +1,6 @@
 package com.chatRobot.model;
 
-/**
- * Created by starr on 2018/3/27.
- */
+
 public class loginRes {
 
     private String status;
