@@ -95,5 +95,4 @@ public class CaseController {
         System.out.println(detail.getID());
         return  detail;
     }
-
 }
