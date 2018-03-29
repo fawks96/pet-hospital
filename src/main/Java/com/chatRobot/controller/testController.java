@@ -50,7 +50,7 @@ public class testController {
     @RequestMapping(value = "/questions", method = RequestMethod.POST)
     public @ResponseBody
     questionsRes getQuestions(@RequestBody Map<String, Object> map) {
-        System.out.println("fuck");
+    //    System.out.println("fuck");
 
         questionsRes myRes = new questionsRes();
 
@@ -58,11 +58,11 @@ public class testController {
 
         System.out.println(num);
         ArrayList CategoryList = (ArrayList) map.get("CategoryList");
-        System.out.println(CategoryList.size());
+  /*      System.out.println(CategoryList.size());
         for (int i = 0; i < CategoryList.size(); i++)
         {
             System.out.println(CategoryList.get(i));
-        }
+        }*/
 
 
 
