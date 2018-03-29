@@ -3,6 +3,7 @@ package com.chatRobot.controller;
 import com.chatRobot.model.CaseDetail;
 import com.chatRobot.model.CaseInfo;
 import com.chatRobot.model.DiseaseInfo;
+import com.chatRobot.model.caseRes;
 import com.chatRobot.service.CaseInfoService;
 import com.chatRobot.service.DiseaseInfoService;
 import org.springframework.stereotype.Controller;
@@ -54,9 +55,24 @@ public class CaseController {
 
     public @ResponseBody
     @RequestMapping(value="/getCase",method = RequestMethod.GET)
-    List<CaseInfo> getCase(HttpServletRequest request) throws Exception{
+    caseRes getCase(HttpServletRequest request) throws Exception{
         Integer diseaseID=Integer.parseInt(request.getParameter("diseaseID"));
+        Integer page=Integer.parseInt(request.getParameter("page"));
+        Integer size=Integer.parseInt(request.getParameter("size"));
+        List<CaseInfo> res=new ArrayList<>();
+        caseRes caseRes=new caseRes();
         caseInfos=caseInfoService.getCaseByDisease(diseaseID);
+        if((page-1)*size<caseInfos.size()){
+            if((page*size-1)<caseInfos.size())
+                res=caseInfos.subList((page-1)*size,(page*size));
+            else
+                res=caseInfos.subList((page-1)*size,caseInfos.size());
+        }
+        System.out.println((page-1)*size);
+        System.out.println(page*size-1);
+        if(res.size()>0)
+            caseRes.setCaseInfoList(res);
+        caseRes.setCount(caseInfos.size());
         /*if(!diseaseInfos.isEmpty()){
             for(int i=0;i<diseaseInfos.size();i++){
                 DiseaseInfo diseaseInfo=diseaseInfos.get(i);
@@ -67,7 +83,7 @@ public class CaseController {
         }
         else
             return null;*/
-        return caseInfos;
+        return caseRes;
     }
 
     public @ResponseBody
