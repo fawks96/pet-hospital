@@ -68,7 +68,7 @@
     insert into user (id, name, pwd, 
       auth, picture_url)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
-      #{auth,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
+      #{auth,jdbcType=INTEGER}, #{picture_url,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.chatRobot.model.UserInfo">
     insert into user

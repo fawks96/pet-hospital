@@ -11,7 +11,7 @@ public class UserInfo implements Serializable {
 
     private Integer auth;
 
-    private String pictureUrl;
+    private String picture_url;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +47,19 @@ public class UserInfo implements Serializable {
         this.auth = auth;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
+   // public String getPictureUrl() {
+   //     return pictureUrl;
+    //}
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl == null ? null : pictureUrl.trim();
-    }
+   // public void setPictureUrl(String pictureUrl) {
+    //    this.pictureUrl = pictureUrl == null ? null : pictureUrl.trim();
+    //}
+
+    public void setPicture_url(String picture_url) {
+        this.picture_url = picture_url;
+    };
+
+    public String getPicture_url() {
+        return picture_url;
+    };
 }
