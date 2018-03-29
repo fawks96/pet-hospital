@@ -22,5 +22,4 @@ public class TestServiceImpl implements TestService{
         List<QuestionInfo> resList = this.questionDao.getByCategory(category);
         return resList;
     }
-
 }
