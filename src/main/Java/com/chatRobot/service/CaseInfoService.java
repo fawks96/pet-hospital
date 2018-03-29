@@ -1,5 +1,6 @@
 package com.chatRobot.service;
 
+import com.chatRobot.model.CaseDetail;
 import com.chatRobot.model.CaseInfo;
 import java.util.List;
 /**
@@ -7,4 +8,8 @@ import java.util.List;
  */
 public interface CaseInfoService {
     public List<CaseInfo> getCaseByDisease(Integer diseaseID);
+
+    public Integer getDiseaseID(String name);
+
+    public CaseDetail getDetail(Integer caseID);
 }

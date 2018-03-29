@@ -20,4 +20,12 @@ public interface CaseInfoMapper {
     int updateByPrimaryKey(CaseInfo record);
 
     List<CaseInfo> selectByDisease(Integer diseaseID);
+
+    Integer getDiseaseID(String name);
+
+    List<String> getPicUrl(Integer caseID);
+
+    List<String> getVideoUrl(Integer caseID);
+
+    List<String> getText(Integer caseID);
 }

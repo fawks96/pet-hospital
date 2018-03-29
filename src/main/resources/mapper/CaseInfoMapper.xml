@@ -53,7 +53,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from CASE
     where id = #{id,jdbcType=INTEGER}
@@ -115,7 +115,23 @@
     select
     *
     from mcase
-    where disease_id = #{diseaseID,jdbcType=INTEGER}
+    where disease_id = #{diseaseID}
+  </select>
+
+  <select id="getDiseaseID" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT disease_id FROM mcase where name=#{name};
+  </select>
+
+  <select id="getPicUrl" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT url FROM picture where case_id=#{caseID};
+  </select>
+
+  <select id="getVideoUrl" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT url FROM video where case_id=#{caseID};
+  </select>
+
+  <select id="getText" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT info FROM text where case_id=#{caseID};
   </select>
 
 
