@@ -18,4 +18,8 @@ public interface DiseaseInfoMapper {
     int updateByPrimaryKeySelective(DiseaseInfo record);
 
     int updateByPrimaryKey(DiseaseInfo record);
+
+    List<DiseaseInfo> selectByCategory(String category);
+
+    List<String> getCategory();
 }

@@ -112,4 +112,12 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="selectByCategory" parameterType="java.lang.String" resultType="com.chatRobot.model.DiseaseInfo">
+    select * from disease where category = #{category}
+  </select>
+
+  <select id="getCategory"  resultType="java.lang.String">
+    select distinct(category) from disease
+  </select>
 </mapper>
+
