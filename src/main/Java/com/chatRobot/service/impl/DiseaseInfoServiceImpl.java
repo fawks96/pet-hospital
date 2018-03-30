@@ -21,4 +21,9 @@ public class DiseaseInfoServiceImpl implements DiseaseInfoService{
     }
 
     public  List<String> getCategory(){return dao.getCategory();}
+
+    @Override
+    public List<DiseaseInfo> getAllCategory() {
+        return dao.getAllCategory();
+    }
 }

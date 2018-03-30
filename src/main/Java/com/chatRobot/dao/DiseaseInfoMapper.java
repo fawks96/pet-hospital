@@ -3,7 +3,6 @@ package com.chatRobot.dao;
 import com.chatRobot.model.DiseaseInfo;
 import com.chatRobot.model.DiseaseInfoExample;
 import java.util.List;
-
 public interface DiseaseInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -22,4 +21,7 @@ public interface DiseaseInfoMapper {
     List<DiseaseInfo> selectByCategory(String category);
 
     List<String> getCategory();
+
+    List<DiseaseInfo> getAllCategory();
+
 }

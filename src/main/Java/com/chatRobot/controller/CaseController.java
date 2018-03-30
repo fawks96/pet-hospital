@@ -1,16 +1,13 @@
 package com.chatRobot.controller;
 
-import com.chatRobot.model.CaseDetail;
-import com.chatRobot.model.CaseInfo;
-import com.chatRobot.model.DiseaseInfo;
-import com.chatRobot.model.caseRes;
+import com.chatRobot.model.*;
 import com.chatRobot.service.CaseInfoService;
 import com.chatRobot.service.DiseaseInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.chatRobot.model.Category;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -94,5 +91,27 @@ public class CaseController {
         System.out.println(caseID);
         System.out.println(detail.getID());
         return  detail;
+    }
+
+
+    public @ResponseBody
+    @RequestMapping(value="/getAllCategory",method = RequestMethod.GET)
+    List<categoryRes> getDetail() throws Exception{
+
+
+         List<DiseaseInfo> list = diseaseInfoService.getAllCategory();
+
+         List<categoryRes> resList = new ArrayList<>();
+
+         for (int i = 0; i < list.size(); i++)
+         {
+             categoryRes tmp = new categoryRes();
+             tmp.setCategory(list.get(i).getCategory());
+             tmp.setName(list.get(i).getName());
+             resList.add(tmp);
+         }
+         
+         return resList;
+
     }
 }

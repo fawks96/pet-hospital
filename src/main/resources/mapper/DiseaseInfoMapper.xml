@@ -6,6 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category" jdbcType="VARCHAR" property="category" />
   </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -119,5 +120,10 @@
   <select id="getCategory"  resultType="java.lang.String">
     select distinct(category) from disease
   </select>
+
+  <select id="getAllCategory" resultType="com.chatRobot.model.DiseaseInfo">
+    select * from disease
+  </select>
+
 </mapper>
 
