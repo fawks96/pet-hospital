@@ -13,9 +13,11 @@ import com.chatRobot.model.QuestionInfo;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import java.util.*;
 import com.chatRobot.service.TestService;
 import com.chatRobot.model.questionsRes;
+import com.chatRobot.service.RecordService;
 @Controller
 @RequestMapping("/test")
 public class testController {
@@ -23,6 +25,9 @@ public class testController {
     @Resource
     // @Autowired
     private TestService testService;
+
+    @Resource
+    private RecordService recordService;
 
     @RequestMapping(value = "/questions2", method = RequestMethod.GET)
     public @ResponseBody
@@ -103,6 +108,42 @@ public class testController {
         }
 
     }
+
+
+        @RequestMapping(value = "/getScore", method = RequestMethod.POST)
+        public @ResponseBody int
+        getScore(@RequestBody Map<String,Object> map)
+        {
+            Integer user_id = Integer.parseInt(map.get("user_id").toString());
+
+            ArrayList<Map<String,String> > selectList = (ArrayList<Map<String,String> >) map.get("select");
+
+            int cnt = 0;
+
+            for (int i = 0; i <selectList.size(); i++)
+            {
+                Integer ques_id = Integer.parseInt(selectList.get(i).get("ques_id"));
+                String choose_ans = selectList.get(i).get("choose_ans");
+
+                String ans = testService.getAnsById(ques_id);
+
+                System.out.println("ans: "+ ans);
+                System.out.println("choose_ans: "+choose_ans);
+                if (choose_ans.equals(ans))
+                {
+                    recordService.addRecord(user_id,ques_id,choose_ans,"T");
+                    cnt++;
+                }
+                else
+                {
+                    recordService.addRecord(user_id,ques_id,choose_ans,"F");
+                }
+            }
+
+            return cnt*10; //答对一题10分
+
+        }
+
 
 
 }

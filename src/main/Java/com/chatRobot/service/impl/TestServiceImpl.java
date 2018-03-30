@@ -22,4 +22,20 @@ public class TestServiceImpl implements TestService{
         List<QuestionInfo> resList = this.questionDao.getByCategory(category);
         return resList;
     }
+
+    public List<QuestionInfo> getByList(List<String> list)
+    {
+        List<QuestionInfo> resList = this.questionDao.getByList(list);
+        return resList;
+    }
+
+    public String getAnsById(Integer ques_id)
+    {
+        System.out.println("service:"+ques_id);
+        return this.questionDao.getAnsById(ques_id);
+    }
+
+
+
+
 }
