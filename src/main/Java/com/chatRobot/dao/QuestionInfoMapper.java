@@ -26,5 +26,5 @@ public interface QuestionInfoMapper {
 
     String getAnsById(Integer ques_id);
 
-
+    QuestionInfo getById(Integer id);
 }

@@ -21,7 +21,7 @@ public class RecordInfo extends RecordInfoKey implements Serializable {
         return TorF;
     }
 
-    public void setTorF(String torF) {
-        TorF = torF;
+    public void setTorF(String TorF) {
+        this.TorF = TorF;
     }
 }

@@ -1,5 +1,7 @@
 package com.chatRobot.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class recordRes {
 
     private String stem;
@@ -10,10 +12,11 @@ public class recordRes {
     private String choice;
     private String TorF;
 
-    public void setTorF(String torF) {
-        TorF = torF;
+    public void setTorF(String TorF) {
+        this.TorF = TorF;
     }
 
+    @JsonProperty("TorF")
     public String getTorF() {
         return TorF;
     }
@@ -27,18 +30,22 @@ public class recordRes {
         this.choice = choice;
     }
 
+    @JsonProperty("A")
     public String getA() {
         return A;
     }
 
+    @JsonProperty("B")
     public String getB() {
         return B;
     }
 
+    @JsonProperty("C")
     public String getC() {
         return C;
     }
 
+    @JsonProperty("D")
     public String getD() {
         return D;
     }
@@ -47,20 +54,22 @@ public class recordRes {
         return stem;
     }
 
-    public void setA(String a) {
-        A = a;
+    public void setA(String A) {
+        this.A = A;
     }
 
-    public void setB(String b) {
-        B = b;
+
+    public void setB(String B) {
+        this.B = B;
     }
 
-    public void setC(String c) {
-        C = c;
+
+    public void setC(String C) {
+        this.C = C;
     }
 
-    public void setD(String d) {
-        D = d;
+    public void setD(String D) {
+        this.D = D;
     }
 
     public void setStem(String stem) {

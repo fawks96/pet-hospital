@@ -12,5 +12,5 @@ public interface TestService {
 
     public String getAnsById(Integer ques_id);
 
-
+    public QuestionInfo getById(Integer id);
 }

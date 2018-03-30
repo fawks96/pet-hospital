@@ -185,5 +185,7 @@
     select answer from question where id = #{ques_id}
   </select>
   
-
+  <select id="getById" parameterType="Integer" resultType="com.chatRobot.model.QuestionInfo">
+    select * from question where id = #{id}
+  </select>
 </mapper>

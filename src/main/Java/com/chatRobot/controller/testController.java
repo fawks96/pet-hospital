@@ -128,10 +128,11 @@ public class testController {
                 Integer ques_id = Integer.parseInt(String.valueOf(selectList.get(i).get("ques_id")));
                 String choose_ans = selectList.get(i).get("choose_ans");
 
+                System.out.println("choose_ans: "+choose_ans);
+
                 String ans = testService.getAnsById(ques_id);
 
                 System.out.println("ans: "+ ans);
-                System.out.println("choose_ans: "+choose_ans);
                 if (choose_ans.equals(ans))
                 {
                     recordService.addRecord(user_id,ques_id,choose_ans,"T");
@@ -148,21 +149,30 @@ public class testController {
         }
 
 
-   /* @RequestMapping(value = "/getRecord", method = RequestMethod.GET)
+   @RequestMapping(value = "/getRecord", method = RequestMethod.GET)
     public @ResponseBody List<recordRes> getRecord(HttpServletRequest request)
     {
         Integer user_id = Integer.parseInt(request.getParameter("user_id"));
         List<RecordInfo> list = recordService.getRecordById(user_id);
+
+
         List<recordRes> resList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++)
         {
             recordRes tmp = new recordRes();
             tmp.setChoice(list.get(i).getChoice());
             tmp.setTorF(list.get(i).getTorF());
+
+            QuestionInfo questionInfo = testService.getById(list.get(i).getQues_id());
+            tmp.setStem(questionInfo.getStem());
+            tmp.setA(questionInfo.getA());
+            tmp.setB(questionInfo.getB());
+            tmp.setC(questionInfo.getC());
+            tmp.setD(questionInfo.getD());
             resList.add(tmp);
         }
         return resList;
-    }*/
+    }
 
 
 

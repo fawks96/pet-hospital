@@ -36,9 +36,8 @@ public class TestServiceImpl implements TestService{
         return this.questionDao.getAnsById(ques_id);
     }
 
-
-
-
-
-
+    @Override
+    public QuestionInfo getById(Integer id) {
+        return questionDao.getById(id);
+    }
 }
