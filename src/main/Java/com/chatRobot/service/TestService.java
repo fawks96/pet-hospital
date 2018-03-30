@@ -1,5 +1,7 @@
 package com.chatRobot.service;
 import com.chatRobot.model.QuestionInfo;
+import com.chatRobot.model.RecordInfo;
+
 import java.util.*;
 
 public interface TestService {
@@ -9,5 +11,6 @@ public interface TestService {
     public List<QuestionInfo> getByList(List<String> list);
 
     public String getAnsById(Integer ques_id);
+
 
 }

@@ -3,6 +3,7 @@ package com.chatRobot.service.impl;
 import com.chatRobot.dao.QuestionInfoMapper;
 import com.chatRobot.dao.UserInfoMapper;
 import com.chatRobot.model.QuestionInfo;
+import com.chatRobot.model.RecordInfo;
 import com.chatRobot.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class TestServiceImpl implements TestService{
         System.out.println("service:"+ques_id);
         return this.questionDao.getAnsById(ques_id);
     }
+
+
 
 
 

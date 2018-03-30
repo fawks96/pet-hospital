@@ -21,4 +21,7 @@ public interface RecordInfoMapper {
     int updateByPrimaryKey(RecordInfo record);
 
     public void addRecord(RecordInfo recordInfo);
+
+    public List<RecordInfo> getRecordById(Integer user_id);
+
 }

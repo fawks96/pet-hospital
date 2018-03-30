@@ -2,8 +2,10 @@ package com.chatRobot.controller;
 
 
 import com.chatRobot.model.QuestionInfoExample;
+import com.chatRobot.model.RecordInfo;
 import com.chatRobot.service.IUserService;
 import net.sf.json.JSONObject;
+import com.chatRobot.model.recordRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +61,7 @@ public class testController {
 
         questionsRes myRes = new questionsRes();
 
-        int num = Integer.parseInt(map.get("num").toString());
+        int num = Integer.parseInt(String.valueOf(map.get("num")));
 
         System.out.println(num);
         ArrayList CategoryList = (ArrayList) map.get("CategoryList");
@@ -114,7 +116,8 @@ public class testController {
         public @ResponseBody int
         getScore(@RequestBody Map<String,Object> map)
         {
-            Integer user_id = Integer.parseInt(map.get("user_id").toString());
+           // System.out.println(map.get("user_id").getClass());
+            Integer user_id = Integer.parseInt(String.valueOf(map.get("user_id")));
 
             ArrayList<Map<String,String> > selectList = (ArrayList<Map<String,String> >) map.get("select");
 
@@ -122,7 +125,7 @@ public class testController {
 
             for (int i = 0; i <selectList.size(); i++)
             {
-                Integer ques_id = Integer.parseInt(selectList.get(i).get("ques_id"));
+                Integer ques_id = Integer.parseInt(String.valueOf(selectList.get(i).get("ques_id")));
                 String choose_ans = selectList.get(i).get("choose_ans");
 
                 String ans = testService.getAnsById(ques_id);
@@ -143,6 +146,23 @@ public class testController {
             return cnt*10; //答对一题10分
 
         }
+
+
+   /* @RequestMapping(value = "/getRecord", method = RequestMethod.GET)
+    public @ResponseBody List<recordRes> getRecord(HttpServletRequest request)
+    {
+        Integer user_id = Integer.parseInt(request.getParameter("user_id"));
+        List<RecordInfo> list = recordService.getRecordById(user_id);
+        List<recordRes> resList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++)
+        {
+            recordRes tmp = new recordRes();
+            tmp.setChoice(list.get(i).getChoice());
+            tmp.setTorF(list.get(i).getTorF());
+            resList.add(tmp);
+        }
+        return resList;
+    }*/
 
 
 

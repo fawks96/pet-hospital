@@ -128,4 +128,7 @@
     insert into record (user_id,ques_id,choice,TorF) values (#{user_id},#{ques_id},#{choice},#{TorF})
   </insert>
 
+  <select id="getRecordById" parameterType="Integer" resultType="com.chatRobot.model.RecordInfo">
+    select * from record where user_id = #{user_id}
+  </select>
 </mapper>

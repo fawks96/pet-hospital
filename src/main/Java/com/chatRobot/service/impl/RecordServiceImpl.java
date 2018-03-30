@@ -3,7 +3,7 @@ import com.chatRobot.dao.RecordInfoMapper;
 import com.chatRobot.model.RecordInfo;
 import com.chatRobot.service.RecordService;
 import org.springframework.stereotype.Service;
-
+import java.util.*;
 import javax.annotation.Resource;
 @Service
 public class RecordServiceImpl implements RecordService{
@@ -21,4 +21,11 @@ public class RecordServiceImpl implements RecordService{
         recordInfo.setTorF(TorF);
         this.dao.addRecord(recordInfo);
     }
+
+    public List<RecordInfo> getRecordById(Integer user_id)
+    {
+        return this.dao.getRecordById(user_id);
+    }
+
+
 }
