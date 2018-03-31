@@ -53,24 +53,12 @@
         <!-- 列出要生成代码的所有表，这里配置的是不生成Example文件 -->
 
 
-        <!--<table tableName="User" domainObjectName="UserInfo"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
-            <property name="useActualColumnNames" value="false"/>
-        </table> -->
-
-<<<<<<< HEAD
-        <!--<table tableName="question" domainObjectName="QuestionInfo"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
-            <property name="useActualColumnNames" value="false"/>
-        </table>-->
-
-        <table tableName="procedure" domainObjectName="ProcedureInfo"
-=======
-        <table tableName="record" domainObjectName="RecordInfo"
->>>>>>> e1014eb38e26de7a3ac4afd93d44220db2a32593
+        <table tableName="facility" domainObjectName="FacilityInfo"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
             <property name="useActualColumnNames" value="false"/>
         </table>
+
+
 
 
     </context>
