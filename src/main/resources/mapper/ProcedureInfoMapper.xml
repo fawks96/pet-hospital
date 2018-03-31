@@ -133,8 +133,8 @@
       procedure_name = #{procedureName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getRoleProcedure" parameterType="java.lang.Integer"  resultType="com.chatRobot.model.procedureRes">
-    select role_id,step,id,procedure_name from pet.procedure where role_id=#{role,jdbcType=INTEGER}
+  <select id="getRoleProcedure"   resultType="com.chatRobot.model.procedureRes">
+    select role_id,step,id,procedure_name from pet.procedure where role_id=#{role} and pet.procedure.domain=#{domain} order by step
   </select>
   <select id="getProcedureDetail" parameterType="java.lang.Integer" resultType="com.chatRobot.model.ProcedureInfo">
     select * from pet.procedure where id=#{procedureID}
@@ -145,5 +145,9 @@
 
   <select id="getVideoUrl" parameterType="java.lang.Integer" resultType="java.lang.String">
     SELECT url FROM video where procedure_id=#{procedureID};
+  </select>
+
+  <select id="getAllDomain" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select distinct(pet.procedure.domain) from pet.procedure where role_id=#{role}
   </select>
 </mapper>

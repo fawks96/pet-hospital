@@ -9,6 +9,7 @@ import com.chatRobot.model.ProcedureInfo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  * Created by starr on 2018/3/31.
@@ -18,7 +19,7 @@ public class RolePlayServiceImpl implements RolePlayService{
     @Resource
     private ProcedureInfoMapper dao;
 
-    public List<procedureRes> getRoleProcedure(Integer role) {
+    public List<procedureRes> getRoleProcedure(Integer role,String domain) {
         /*List<ProcedureInfo> procedureInfos=dao.getRoleProcedure(role);
         List<procedureRes> procedureRes=new ArrayList<>();
         for(int i=0;i<procedureInfos.size();i++){
@@ -30,7 +31,7 @@ public class RolePlayServiceImpl implements RolePlayService{
             procedureRes.add(procedureRes1);
             System.out.print(procedureInfos.get(i).getProcedure_name());
         }*/
-        return dao.getRoleProcedure(role);
+        return dao.getRoleProcedure(role,domain);
     }
 
     public ProcedureInfo getProcedureDetail(Integer procedureID){
@@ -50,4 +51,6 @@ public class RolePlayServiceImpl implements RolePlayService{
 
         return procedureInfo;
     }
+
+    public List<String> getAllDomain(Integer role){return dao.getAllDomain(role);}
 }

@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.chatRobot.service.RolePlayService;
 import com.chatRobot.model.ProcedureInfo;
 import com.chatRobot.model.procedureRes;
+import com.chatRobot.model.procedureList;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by starr on 2018/3/31.
@@ -23,7 +26,7 @@ public class RolePlayTest {
 
     @Test
     public void getRoleProcedureTest() throws Exception{
-        Integer role=1;
+        /*Integer role=1;
         List<procedureRes> procedureRes=rolePlayService.getRoleProcedure(role);
         System.out.println(procedureRes.size());
         for(int i=0;i<procedureRes.size();i++){
@@ -31,7 +34,22 @@ public class RolePlayTest {
             System.out.println(procedureRes.get(i).getProcedure_name());
             System.out.print(procedureRes.get(i).getRole_id());
             System.out.println(procedureRes.get(i).getStep());
+        }*/
+        Integer role=1;
+        List<procedureList>procedureLists=new ArrayList<>();
+        List<String> domain=rolePlayService.getAllDomain(1);
+        System.out.println(domain.size());
+        for(int i=0;i<domain.size();i++){
+            procedureList procedureList=new procedureList();
+            procedureList.setLabel(domain.get(i));
+            List<procedureRes> procedureRes=rolePlayService.getRoleProcedure(role,domain.get(i));
+            System.out.println(procedureRes.size());
+            procedureList.setChildren(procedureRes);
+            procedureLists.add(procedureList);
         }
+        System.out.println(procedureLists.size());
+        //List<procedureRes> procedureRes=rolePlayService.getRoleProcedure(1,"第一个");
+        //System.out.println(procedureRes.size());
     }
 
     @Test

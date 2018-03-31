@@ -3,6 +3,7 @@ package com.chatRobot.dao;
 import com.chatRobot.model.Category;
 import com.chatRobot.model.DiseaseInfo;
 import com.chatRobot.service.DiseaseInfoService;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,6 +21,7 @@ import java.util.List;
 public class DiseaseDaoTest {
     @Autowired
     private DiseaseInfoService diseaseInfoService;
+    @Test
     public void testSelectDiseaseByCategory() throws Exception{
         /*String category="炎症";
         List<DiseaseInfo> diseaseInfo = diseaseInfoService.getDiseaseByCategory(category);
