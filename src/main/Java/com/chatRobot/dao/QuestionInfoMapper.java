@@ -21,4 +21,10 @@ public interface QuestionInfoMapper {
     int updateByPrimaryKey(QuestionInfo record);
 
     List<QuestionInfo> getByCategory(String category);
+
+    List<QuestionInfo> getByList(List<String> list);
+
+    String getAnsById(Integer ques_id);
+
+    QuestionInfo getById(Integer id);
 }

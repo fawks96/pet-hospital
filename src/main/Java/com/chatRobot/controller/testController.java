@@ -2,8 +2,10 @@ package com.chatRobot.controller;
 
 
 import com.chatRobot.model.QuestionInfoExample;
+import com.chatRobot.model.RecordInfo;
 import com.chatRobot.service.IUserService;
 import net.sf.json.JSONObject;
+import com.chatRobot.model.recordRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,22 +15,25 @@ import com.chatRobot.model.QuestionInfo;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import java.util.*;
-import net.sf.json.JSONArray;
 import com.chatRobot.service.TestService;
-import com.chatRobot.model.getQueData;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.chatRobot.model.questionsRes;
+import com.chatRobot.service.RecordService;
 @Controller
 @RequestMapping("/test")
 public class testController {
 
     @Resource
-   // @Autowired
+    // @Autowired
     private TestService testService;
 
-    @RequestMapping(value = "/questions", method = RequestMethod.GET)
-    public @ResponseBody List<QuestionInfo> getQuestions(HttpServletRequest request)
-    {
+    @Resource
+    private RecordService recordService;
+
+    @RequestMapping(value = "/questions2", method = RequestMethod.GET)
+    public @ResponseBody
+    List<QuestionInfo> getQuestions2(HttpServletRequest request) {
         String category = request.getParameter("category");
         int num = Integer.parseInt(request.getParameter("num"));
 
@@ -36,15 +41,11 @@ public class testController {
 
         int len = questionList.size();
 
-        if (len <= num)
-        {
+        if (len <= num) {
             return questionList;
-        }
-        else
-        {
+        } else {
             List<QuestionInfo> newQuestionList = new ArrayList<>();
-            for (int i = 0; i < num; i++)
-            {
+            for (int i = 0; i < num; i++) {
                 newQuestionList.add(questionList.get(i));
             }
             return newQuestionList;
@@ -53,32 +54,30 @@ public class testController {
 
     }
 
-   /*@RequestMapping(value = "/questions2", method = RequestMethod.POST)
-    public @ResponseBody void getQuestions2(@RequestBody Map<String,String> map)
-    {
-        System.out.println("fuck");
-        int num = Integer.parseInt(map.get("num"));
-        System.out.println(num);
+    @RequestMapping(value = "/questions", method = RequestMethod.POST)
+    public @ResponseBody
+    questionsRes getQuestions(@RequestBody Map<String, Object> map) {
+    //    System.out.println("fuck");
 
-        JSONObject myJson = JSONObject.fromObject(map.get("CategoryList"));
-        //JSONArray list = new JSONArray("233");
-        JSONArray list = myJson.getJSONArray();
-        for (int i = 0; i < list.length(); i++)
+        questionsRes myRes = new questionsRes();
+
+        int num = Integer.parseInt(String.valueOf(map.get("num")));
+
+        System.out.println(num);
+        ArrayList CategoryList = (ArrayList) map.get("CategoryList");
+  /*      System.out.println(CategoryList.size());
+        for (int i = 0; i < CategoryList.size(); i++)
         {
-            System.out.println(list.getString(i));
-        }
-    //    System.out.println(quedata.getNum());
-      //  System.out.println(quedata.getCategoryList());
-   /*     List<String> CategoryList = quedata.getCategoryList();
-        int num = quedata.getNum();
-        for (int i = 0; i < CategoryList.size(); i++) System.out.println(CategoryList.get(i));
-        System.out.println("num:"+num);
+            System.out.println(CategoryList.get(i));
+        }*/
+
+
 
         List<QuestionInfo> questionList = new ArrayList<>();
 
         for (int i = 0; i < CategoryList.size(); i++)
         {
-            List<QuestionInfo> tmpList = testService.getByCategory(CategoryList.get(i));
+            List<QuestionInfo> tmpList = testService.getByCategory(CategoryList.get(i).toString());
             for (int j = 0; j < tmpList.size(); j++)
             {
                 questionList.add(tmpList.get(j));
@@ -90,18 +89,93 @@ public class testController {
 
         if (num >= len)
         {
-            return questionList;
+            if (questionList == null) myRes.setStatus("Fail");
+            else if (questionList.size() == 0) myRes.setStatus("题库暂空");
+            else myRes.setStatus("Ok");
+
+            myRes.setQuestionList(questionList);
+            return myRes;
         }
         else
         {
             List<QuestionInfo> resList = new ArrayList<>();
             for (int i = 0; i < num; i++) resList.add(questionList.get(i));
-            return resList;
+
+            if (resList == null) myRes.setStatus("Fail");
+            else if (resList.size() == 0) myRes.setStatus("题库暂空");
+            else myRes.setStatus("Ok");
+
+            myRes.setQuestionList(resList);
+            return myRes;
         }
-      //  testService.getByCategory(category);
+
+    }
+
+
+        @RequestMapping(value = "/getScore", method = RequestMethod.POST)
+        public @ResponseBody int
+        getScore(@RequestBody Map<String,Object> map)
+        {
+           // System.out.println(map.get("user_id").getClass());
+            Integer user_id = Integer.parseInt(String.valueOf(map.get("user_id")));
+
+            ArrayList<Map<String,String> > selectList = (ArrayList<Map<String,String> >) map.get("select");
+
+            int cnt = 0;
+
+            for (int i = 0; i <selectList.size(); i++)
+            {
+                Integer ques_id = Integer.parseInt(String.valueOf(selectList.get(i).get("ques_id")));
+                String choose_ans = selectList.get(i).get("choose_ans");
+
+                System.out.println("choose_ans: "+choose_ans);
+
+                String ans = testService.getAnsById(ques_id);
+
+                System.out.println("ans: "+ ans);
+                if (choose_ans.equals(ans))
+                {
+                    recordService.addRecord(user_id,ques_id,choose_ans,"T");
+                    cnt++;
+                }
+                else
+                {
+                    recordService.addRecord(user_id,ques_id,choose_ans,"F");
+                }
+            }
+
+            return cnt*10; //答对一题10分
 
         }
-            */
+
+
+   @RequestMapping(value = "/getRecord", method = RequestMethod.GET)
+    public @ResponseBody List<recordRes> getRecord(HttpServletRequest request)
+    {
+        Integer user_id = Integer.parseInt(request.getParameter("user_id"));
+        List<RecordInfo> list = recordService.getRecordById(user_id);
+
+
+        List<recordRes> resList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++)
+        {
+            recordRes tmp = new recordRes();
+            tmp.setChoice(list.get(i).getChoice());
+            tmp.setTorF(list.get(i).getTorF());
+
+            QuestionInfo questionInfo = testService.getById(list.get(i).getQues_id());
+            tmp.setStem(questionInfo.getStem());
+            tmp.setA(questionInfo.getA());
+            tmp.setB(questionInfo.getB());
+            tmp.setC(questionInfo.getC());
+            tmp.setD(questionInfo.getD());
+            resList.add(tmp);
+        }
+        return resList;
     }
+
+
+
+}
 
 

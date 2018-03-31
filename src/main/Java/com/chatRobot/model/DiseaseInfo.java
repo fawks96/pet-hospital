@@ -1,13 +1,14 @@
 package com.chatRobot.model;
 
 import java.io.Serializable;
-
+import java.util.*;
 public class DiseaseInfo implements Serializable {
     private Integer id;
 
     private String name;
 
     private String category;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -34,4 +35,6 @@ public class DiseaseInfo implements Serializable {
     public void setCategory(String category) {
         this.category = category == null ? null : category.trim();
     }
+
+
 }

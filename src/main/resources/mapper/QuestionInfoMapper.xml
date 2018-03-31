@@ -173,4 +173,19 @@
   <select id="getByCategory" parameterType="String" resultType="com.chatRobot.model.QuestionInfo">
     select * from question where category = #{category}
   </select>
+
+  <select id="getByList" parameterType="java.util.Map" resultType="com.chatRobot.model.QuestionInfo">
+    select * from question where category IN
+    <foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="getAnsById" parameterType="java.lang.Integer" resultType="String">
+    select answer from question where id = #{ques_id}
+  </select>
+  
+  <select id="getById" parameterType="Integer" resultType="com.chatRobot.model.QuestionInfo">
+    select * from question where id = #{id}
+  </select>
 </mapper>
