@@ -58,7 +58,12 @@
             <property name="useActualColumnNames" value="false"/>
         </table> -->
 
-        <table tableName="question" domainObjectName="QuestionInfo"
+        <!--<table tableName="question" domainObjectName="QuestionInfo"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+
+        <table tableName="procedure" domainObjectName="ProcedureInfo"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false">
             <property name="useActualColumnNames" value="false"/>
         </table>
