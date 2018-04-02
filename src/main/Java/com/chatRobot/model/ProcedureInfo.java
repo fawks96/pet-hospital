@@ -12,7 +12,7 @@ public class ProcedureInfo implements Serializable {
 
     private String info;
 
-    private String procedure_name;
+    private String step_name;
 
     private List<String> picUrl;
 
@@ -52,12 +52,12 @@ public class ProcedureInfo implements Serializable {
         this.info = info == null ? null : info.trim();
     }
 
-    public String getProcedure_name() {
-        return procedure_name;
+    public String getStep_name() {
+        return step_name;
     }
 
-    public void setProcedure_name(String procedureName) {
-        this.procedure_name = procedureName == null ? null : procedureName.trim();
+    public void setStep_name(String procedureName) {
+        this.step_name = procedureName == null ? null : procedureName.trim();
     }
 
     public List<String> getPicUrl(){return this.picUrl;}

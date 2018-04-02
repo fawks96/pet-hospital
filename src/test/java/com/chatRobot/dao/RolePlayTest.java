@@ -57,7 +57,7 @@ public class RolePlayTest {
         Integer procedureID=1;
         ProcedureInfo procedureInfo=rolePlayService.getProcedureDetail(procedureID);
         System.out.print(procedureInfo.getId());
-        System.out.println(procedureInfo.getProcedure_name());
+        System.out.println(procedureInfo.getStep_name());
         System.out.println(procedureInfo.getRole_id());
         System.out.println(procedureInfo.getInfo());
         if(procedureInfo.getVideoUrl().size()>0)

@@ -11,7 +11,7 @@ public class procedureRes {
     private Integer role_id;
     private Integer step;
     private Integer id;
-    private String procedure_name;
+    private String step_name;
 
     public Integer getRole_id(){return this.role_id;}
 
@@ -21,9 +21,9 @@ public class procedureRes {
 
     public void setStep(Integer stage){this.step=stage;}
 
-    public String getProcedure_name(){return this.procedure_name;}
+    public String getStep_name(){return this.step_name;}
 
-    public void setProcedure_name(String procedureName){this.procedure_name=procedureName;}
+    public void setStep_name(String procedureName){this.step_name=procedureName;}
 
     public Integer getId(){return this.id;}
 

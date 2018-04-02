@@ -6,7 +6,7 @@
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="step" jdbcType="INTEGER" property="step" />
     <result column="info" jdbcType="VARCHAR" property="info" />
-    <result column="procedure_name" jdbcType="VARCHAR" property="procedureName" />
+    <result column="step_name" jdbcType="VARCHAR" property="step_name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -134,7 +134,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getRoleProcedure"   resultType="com.chatRobot.model.procedureRes">
-    select role_id,step,id,procedure_name from pet.procedure where role_id=#{role} and pet.procedure.domain=#{domain} order by step
+    select role_id,step,id,step_name from pet.procedure where role_id=#{role} and pet.procedure.domain=#{domain} order by step
   </select>
   <select id="getProcedureDetail" parameterType="java.lang.Integer" resultType="com.chatRobot.model.ProcedureInfo">
     select * from pet.procedure where id=#{procedureID}
