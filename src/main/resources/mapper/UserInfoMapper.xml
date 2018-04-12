@@ -65,7 +65,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chatRobot.model.UserInfo">
-    insert into user (id, name, pwd, 
+    insert into user (id, pet.user.name, pwd,
       auth, picture_url)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
       #{auth,jdbcType=INTEGER}, #{picture_url,jdbcType=VARCHAR})
@@ -135,7 +135,7 @@
   </update>
 
   <select id="findUserByName" parameterType="String" resultType="com.chatRobot.model.UserInfo">
-    select * from user where name = #{username}
+    select * from user where pet.user.name = #{username}
   </select>
 
 

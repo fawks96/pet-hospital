@@ -18,8 +18,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
-
     @Resource
     private IUserService userService;
 
@@ -48,16 +46,18 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody
     loginRes register(@RequestBody UserInfo user) throws Exception {
-
-
-        UserInfo res_user = userService.addUser(user);
-
         loginRes myRes = new loginRes();
-        if (user != null) {
-            myRes.setStatus("Ok");
-            myRes.setUser(res_user);
-        } else {
-            myRes.setStatus("Fail");
+        if(userService.selectByName(user.getName())!=null){
+            myRes.setStatus("repeat");
+        }
+        else {
+            UserInfo res_user = userService.addUser(user);
+            if (user != null) {
+                myRes.setStatus("Ok");
+                myRes.setUser(res_user);
+            } else {
+                myRes.setStatus("Fail");
+            }
         }
         return myRes;
 

@@ -30,4 +30,24 @@ public class IUserDaoTest {
         UserInfo user = userService.checkLogin(name, password);
         System.out.println(user.getPwd());
     }
+
+    @Test
+    public void testRegister() throws Exception{
+        if(userService.selectByName("zhang")!=null){
+            System.out.println("chongfu");
+        }
+        else {
+            UserInfo user = new UserInfo();
+            user.setName("zhang");
+            user.setPwd("123");
+            user.setAuth(1);
+            userService.addUser(user);
+        }
+    }
+
+    @Test
+    public void testSelectByName() throws Exception{
+        List<UserInfo> userInfo=userService.selectByName("zhang");
+        System.out.println(userInfo.size());
+    }
 }
