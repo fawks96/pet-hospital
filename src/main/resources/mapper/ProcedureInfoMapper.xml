@@ -6,7 +6,7 @@
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="step" jdbcType="INTEGER" property="step" />
     <result column="info" jdbcType="VARCHAR" property="info" />
-    <result column="step_name" jdbcType="VARCHAR" property="step_name" />
+    <result column="step_name" jdbcType="VARCHAR" property="procedure_name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

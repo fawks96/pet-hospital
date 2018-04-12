@@ -2,6 +2,8 @@ package com.chatRobot.dao;
 
 import com.chatRobot.model.CaseInfo;
 import com.chatRobot.model.CaseInfoExample;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface CaseInfoMapper {
@@ -23,9 +25,9 @@ public interface CaseInfoMapper {
 
     Integer getDiseaseID(String name);
 
-    List<String> getPicUrl(Integer caseID);
+    List<String> getPicUrl(@Param("caseID") Integer caseID,@Param("stage") Integer stage);
 
-    List<String> getVideoUrl(Integer caseID);
+    List<String> getVideoUrl(@Param("caseID") Integer caseID,@Param("stage") Integer stage);
 
-    List<String> getText(Integer caseID);
+    List<String> getText(@Param("caseID") Integer caseID,@Param("stage") Integer stage);
 }

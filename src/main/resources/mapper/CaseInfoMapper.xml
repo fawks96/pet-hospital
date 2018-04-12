@@ -122,16 +122,16 @@
     SELECT disease_id FROM mcase where name=#{name};
   </select>
 
-  <select id="getPicUrl" parameterType="java.lang.Integer" resultType="java.lang.String">
-    SELECT url FROM picture where case_id=#{caseID};
+  <select id="getPicUrl"  resultType="java.lang.String">
+    SELECT url FROM picture where case_id=#{caseID} and stage=#{stage};
   </select>
 
-  <select id="getVideoUrl" parameterType="java.lang.Integer" resultType="java.lang.String">
-    SELECT url FROM video where case_id=#{caseID};
+  <select id="getVideoUrl"  resultType="java.lang.String">
+    SELECT url FROM video where case_id=#{caseID} and stage=#{stage};
   </select>
 
-  <select id="getText" parameterType="java.lang.Integer" resultType="java.lang.String">
-    SELECT info FROM text where case_id=#{caseID};
+  <select id="getText"  resultType="java.lang.String">
+    SELECT info FROM text where case_id=#{caseID} and stage=#{stage};
   </select>
 
 

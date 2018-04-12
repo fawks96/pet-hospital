@@ -7,17 +7,24 @@ import java.util.List;
  */
 public class CaseDetail {
     private Integer ID;
-    private List<String> picUrl;
-    private List<String> videoUrl;
-    private List<String> text;
+    private List<Stage> stages;
+    //private List<String> picUrl;
+    //private List<String> videoUrl;
+    //private List<String> text;
     //private String stage;
 
     public Integer getID(){return ID;}
 
     public void setID(Integer ID){
         System.out.println(ID);
-        this.ID=ID;}
+        this.ID=ID;
+    }
 
+    public List<Stage> getStages(){return stages;}
+
+    public void setStages(List<Stage> stages){this.stages=stages;}
+
+    /*
     public List<String> getPicUrl(){return picUrl;}
 
     public void setPicUrl(List<String> picUrls){this.picUrl=picUrls;}
@@ -35,4 +42,5 @@ public class CaseDetail {
     public  void setText(List<String> texts){this.text=texts;}
 
     public void addText(String text){this.text.add(text);}
+    */
 }

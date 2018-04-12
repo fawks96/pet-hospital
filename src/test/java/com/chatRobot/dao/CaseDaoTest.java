@@ -7,7 +7,10 @@ import com.chatRobot.model.CaseDetail;
 import com.chatRobot.model.CaseInfo;
 import com.chatRobot.model.DiseaseInfo;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.List;
 /**
  * Created by starr on 2018/3/29.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"classpath:spring-mybatis.xml"})
 public class CaseDaoTest {
     @Autowired
     private CaseInfoService caseInfoService;
@@ -27,9 +32,9 @@ public class CaseDaoTest {
         Integer ID=2;
         CaseDetail detail=caseInfoService.getDetail(ID);
         System.out.println(detail.getID());
-        System.out.println(detail.getPicUrl().size());
-        System.out.println(detail.getVideoUrl().size());
-        System.out.println(detail.getText().size());
+        System.out.println(detail.getStages().size());
+        //System.out.println(detail.getStages().get(0).getPicURL().size());
+        //System.out.println(detail.getText().size());
     }
 
     @Test
