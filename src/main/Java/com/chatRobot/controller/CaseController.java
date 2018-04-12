@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 /**
  * Created by starr on 2018/3/28.
  */
@@ -96,22 +97,28 @@ public class CaseController {
 
     public @ResponseBody
     @RequestMapping(value="/getAllCategory",method = RequestMethod.GET)
-    List<categoryRes> getDetail() throws Exception{
+    List<String> getDetail() throws Exception{
 
 
          List<DiseaseInfo> list = diseaseInfoService.getAllCategory();
 
-         List<categoryRes> resList = new ArrayList<>();
+         List<String> resList = new ArrayList<>();
 
          for (int i = 0; i < list.size(); i++)
          {
-             categoryRes tmp = new categoryRes();
-             tmp.setCategory(list.get(i).getCategory());
-             tmp.setName(list.get(i).getName());
-             resList.add(tmp);
+             resList.add(list.get(i).getCategory());
+
          }
-         
-         return resList;
+         Set set = new HashSet();
+         List<String>newList = new ArrayList();
+         for (String cd:resList)
+         {
+             if (set.add(cd))
+             {
+                 newList.add(cd);
+             }
+         }
+         return newList;
 
     }
 }

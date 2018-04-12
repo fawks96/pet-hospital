@@ -5,7 +5,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>SSM框架中参数传递方法的相关汇总</title>
+
 
 
 <style type="text/css">
@@ -328,158 +328,133 @@ kbd {
 
 <body>
 
-<h1 id="toc_0">SSM框架中参数传递方法的相关汇总</h1>
+<h1 id="toc_0">SSM框架中参数传递方法的相关汇总(2)</h1>
 
 <p>&ensp;</p>
 
-<h2 id="toc_1">springmvc请求参数获取的几种方法</h2>
+<h2 id="toc_1">mybatis中的参数处理（传入）</h2>
 
 <ul>
-<li>直接把表单的参数写在Controller相应的方法的形参中，适用于get方式提交，不适用于post方式提交</li>
-</ul>
+<li><p>单个参数</p>
 
-<div><pre><code class="language-none">    @RequestMapping(&quot;/addUser1&quot;)
-    public String addUser1(String username,String password) {
-        System.out.println(&quot;username is:&quot;+username);
-        System.out.println(&quot;password is:&quot;+password);
-        return &quot;demo/index&quot;;
-    }</code></pre></div>
+<p>如果sql语句只传入一个参数，那么主需要用 <code>#{参数名}</code> 就可以获得参数值。事实上，参数名可以为任意值，因为这里只有一个参数。</p></li>
+<li><p>多个参数</p>
 
-<p>url形式：http://localhost/SSMDemo/demo/addUser1?username=lixiaoxi&amp;password=111111 提交的参数需要和Controller方法中的入参名称一致</p>
+<p>多个参数时，mybatis会做特殊处理，多个参数会被封装成map：</p>
 
-<ul>
-<li>通过HttpServletRequest接收，post方式和get方式都可以</li>
-</ul>
+<p>key是param1,param2....或者0、1、2索引值，value是参数值。</p>
 
-<div><pre><code class="language-none">    @RequestMapping(&quot;/addUser2&quot;)
-    public String addUser2(HttpServletRequest request) {
-        String username=request.getParameter(&quot;username&quot;);
-        String password=request.getParameter(&quot;password&quot;);
-        System.out.println(&quot;username is:&quot;+username);
-        System.out.println(&quot;password is:&quot;+password);
-        return &quot;demo/index&quot;;
-    }</code></pre></div>
+<p>因此采用<code>param1</code>，<code>param2</code>的方法获得第一、二个参数。</p></li>
+<li><p>命名参数</p>
 
-<ul>
-<li><p>通过一个bean来接收,post方式和get方式都可以</p>
+<p>事实上，一般来讲人们还是习惯使用具体的参数名而不是param1、param2这样的参数名，这时可以通过@param(&quot;key&quot;)明确指定封装map中的key，就可以通过<code>#{key}</code>取出参数值了。</p>
 
-<ul>
-<li>建立一个和表单中参数对应的bean</li>
-</ul>
+<p>如：</p>
 
-<div><pre><code class="language-none">package demo.model;
+<p>mapper:</p>
 
-public class UserModel {
+<div><pre><code class="language-none">public interface HotelMapper {
 
-private String username;
-private String password;
-public String getUsername() {
-    return username;
+public Hotel getHotel(@Param(&quot;id&quot;)Integer i,@Param(&quot;price&quot;)Integer j);
+
+}   </code></pre></div>
+
+<p>mapper.xml:</p>
+
+<div><pre><code class="language-none">&lt;select id=&quot;getHotel&quot; resultType=&quot;com.pjf.mybatis.po.Hotel&quot;&gt;
+    select id,hotel_name as
+    hotelName, hotel_address as hotelAddress, price from hotel
+    where
+    id=#{id} and price =#{price}
+&lt;/select&gt;
+</code></pre></div></li>
+<li><p>Map</p>
+
+<p>上面是通过@param(&quot;key&quot;)指定一个key,那么我们也可以传入一个自己的Map。</p>
+
+<p>如：</p>
+
+<p>mapper：</p>
+
+<div><pre><code class="language-none">
+public interface HotelMapper {
+
+public Hotel getHotel(Map&lt;String,Integer&gt; map);
+
 }
-public void setUsername(String username) {
-    this.username = username;
-}
-public String getPassword() {
-    return password;
-}
-public void setPassword(String password) {
-    this.password = password;
-}
-}</code></pre></div>
+</code></pre></div>
 
-<ul>
-<li>用这个bean来封装接收的参数</li>
-</ul>
+<p>mapper.xml:</p>
 
-<div><pre><code class="language-none">@RequestMapping(&quot;/addUser3&quot;)
-public String addUser3(UserModel user) {
-    System.out.println(&quot;username is:&quot;+user.getUsername());
-    System.out.println(&quot;password is:&quot;+user.getPassword());
-    return &quot;demo/index&quot;;
-}</code></pre></div>
+<div><pre><code class="language-none">&lt;select id=&quot;getHotel&quot; resultType=&quot;com.pjf.mybatis.po.Hotel&quot;&gt;
+    select id,hotel_name as
+    hotelName, hotel_address as hotelAddress, price from hotel
+    where
+    id=#{id} and price =#{price}
+&lt;/select&gt;
+</code></pre></div>
 
-<ul>
-<li>通过@PathVariable获取路径中的参数</li>
-</ul>
+<p>传参：</p>
 
-<div><pre><code class="language-none">@RequestMapping(value=&quot;/addUser4/{username}/{password}&quot;,method=RequestMethod.GET)
-public String addUser4(@PathVariable String username,@PathVariable String password) {
-    System.out.println(&quot;username is:&quot;+username);
-    System.out.println(&quot;password is:&quot;+password);
-    return &quot;demo/index&quot;;
-}</code></pre></div>
+<div><pre><code class="language-none">//手动封装一个map传入
+Map map =new HashMap&lt;&gt;();
+map.put(&quot;id&quot;, 1001);
+map.put(&quot;price&quot;, 997);
+Hotel hotel = hotelMapper.getHotel(map);
+</code></pre></div></li>
+<li><p>实体</p>
 
-<p>例如，访问http://localhost/SSMDemo/demo/addUser4/lixiaoxi/111111 路径时，则自动将URL中模板变量{username}和{password}绑定到通过@PathVariable注解的同名参数上，即入参后username=lixiaoxi、password=111111。</p></li>
-<li><p>使用@ModelAttribute注解获取POST请求的FORM表单数据</p>
-
-<ul>
-<li>Jsp表单如下：</li>
-</ul>
-
-<div><pre><code class="language-none">&lt;form action =&quot;&lt;%=request.getContextPath()%&gt;/demo/addUser5&quot; method=&quot;post&quot;&gt; 
- 用户名:&amp;nbsp;&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;&lt;br/&gt;
- 密&amp;nbsp;&amp;nbsp;码:&amp;nbsp;&lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt;&lt;br/&gt;
- &lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt; 
- &lt;input type=&quot;reset&quot; value=&quot;重置&quot;/&gt; 
-&lt;/form&gt;</code></pre></div>
-
-<ul>
-<li>Java Controller如下：</li>
-</ul>
-
-<div><pre><code class="language-none">@RequestMapping(value=&quot;/addUser5&quot;,method=RequestMethod.POST)
-public String addUser5(@ModelAttribute(&quot;user&quot;) UserModel user) {
-    System.out.println(&quot;username is:&quot;+user.getUsername());
-    System.out.println(&quot;password is:&quot;+user.getPassword());
-    return &quot;demo/index&quot;;
-}</code></pre></div></li>
-<li><p>用注解@RequestParam绑定请求参数到方法入参</p>
-
-<ul>
-<li>当请求参数username不存在时会有异常发生,可以通过设置属性required=false解决,例如: @RequestParam(value=&quot;username&quot;, required=false)</li>
-</ul>
-
-<div><pre><code class="language-none">@RequestMapping(value=&quot;/addUser6&quot;,method=RequestMethod.GET)
-public String addUser6(@RequestParam(&quot;username&quot;) String username,@RequestParam(&quot;password&quot;) String password) {
-    System.out.println(&quot;username is:&quot;+username);
-    System.out.println(&quot;password is:&quot;+password);
-    return &quot;demo/index&quot;;
-}</code></pre></div></li>
+<p>对于复杂的结构实体，我们还可以采用传入一个实体类作为参数原型的方式来进行传参，采用<code>#{类中对应的成员名}</code>的方式获得传入实体对象对应成员变量的值。</p></li>
 </ul>
 
 <p>&ensp;</p>
 
-<h2 id="toc_2">SSM框架用JSON进行前后端数据传输</h2>
+<h2 id="toc_2">mybatis中的参数处理（传出）</h2>
 
-<h3 id="toc_3">用@RequestBody转换接受的JSON为对象，用@ResponseBody转换返回的对象为JSON。</h3>
+<p>对于传出的resultType，如果它为：</p>
 
-<h3 id="toc_4">有两种接受前端数据的方式，一种使用Map接受，一种使用实体类进行接收。</h3>
+<ul>
+<li><p>基本类型</p>
 
-<p>使用Map接受的方法为：</p>
+<p>resultType类型为基本类型</p></li>
+<li><p>List类型</p>
 
-<div><pre><code class="language-none">@RequestMapping(&quot;/peopleSelect&quot;)
-    @ResponseBody
-    public People peopleSelect(@RequestBody Map&lt;String,String&gt; map) {
-        //使用map.get方法得到JSON中id对应的值
-        long id = Long.parseLong(map.get(&quot;id&quot;));
-        //查找对应id的用户信息
-        People people = peopleService.getById(id);
-        //返回用户信息，要使用@ResponseBody将返回值转换为JSON
-        return people;
-    }</code></pre></div>
+<p>resultType类型为List中元素的类型</p></li>
+<li><p>Map类型</p>
 
-<p>使用实体类接受的话，要求实体类中有对应的属性，如People中有id,name,age属性，只能接受键名为id,name,age的JSON（可以不全有，但不能有People中没有的属性），方法为：</p>
+<p>每一个键对应select的一个列名，对应的值是该列的值</p>
 
-<div><pre><code class="language-none">@RequestMapping(&quot;/peopleSelect&quot;)
-    @ResponseBody
-    public People peopleSelect(@RequestBody People requestPeople ) {
-        //使用requestPeople.getId方法得到JSON中id对应的值
-        long id = requestPeople.getId();
-        //查找对应id的用户信息
-        People people = peopleService.getById(id);
-        //返回用户信息，要使用@ResponseBody将返回值转换为JSON
-        return people;
-    }</code></pre></div>
+<p>resultType类型为Map</p>
+
+<p>使用<code>Map&lt;String,Object&gt;</code>承接传出的结果</p></li>
+</ul>
+
+<p>&ensp;</p>
+
+<p>resultType返回对象的全部字段值，要想返回部分字段值，则需使用resultMap:</p>
+
+<p>先定义一个resultMap实例：</p>
+
+<div><pre><code class="language-none">&lt;resultMap id=&quot;getStudentRM&quot; type=&quot;EStudnet&quot;&gt;
+  &lt;id property=&quot;id&quot; column=&quot;ID&quot;/&gt;
+  &lt;result property=&quot;studentName&quot; column=&quot;Name&quot;/&gt;
+  &lt;result property=&quot;studentAge&quot; column=&quot;Age&quot;/&gt;
+&lt;/resultMap&gt;</code></pre></div>
+
+<p>其中：</p>
+
+<p>id:用于设置主键字段与领域模型属性的映射关系，此处主键为ID，对应id。</p>
+
+<p>result：用于设置普通字段与自定义实体模型属性的映射关系</p>
+
+<p>然后执行sql语句：</p>
+
+<div><pre><code class="language-none">&lt;select id=&quot;getStudent&quot; resultMap=&quot;getStudentRM&quot;&gt;
+  SELECT ID, Name, Age
+    FROM TStudent
+&lt;/select&gt;</code></pre></div>
+
+<p>就可返回自定义实体getStudentRM结构的信息（ID,Name,Age)。</p>
 
 
 

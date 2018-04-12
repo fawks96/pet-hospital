@@ -20,6 +20,12 @@ public class resourceController {
         return "parameter_trans";
     }
 
+    @RequestMapping(value = "/parameter_trans2", method = RequestMethod.GET)
+    public String parameter_trans2()
+    {
+        return "parameter_trans2";
+    }
+
     @RequestMapping(value = "/deploy", method = RequestMethod.GET)
     public String deploy()
     {
