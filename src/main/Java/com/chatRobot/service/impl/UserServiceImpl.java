@@ -7,7 +7,7 @@ import com.chatRobot.dao.UserInfoMapper;
 import com.chatRobot.model.UserInfo;
 import com.chatRobot.service.IUserService;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import javax.annotation.Resource;
 
 
@@ -21,17 +21,23 @@ public class UserServiceImpl implements IUserService {
     /* 登陆验证 */
     public UserInfo checkLogin(String username, String password) {
         //根据用户名实例化用户对象
+        /*
         UserInfo user = userDao.findUserByName(username);
         if (user != null && user.getPwd().equals(password)) {
             return user;
-        }
+        }*/
         return null;
     }
 
     public UserInfo addUser(UserInfo user)
     {
         //userDao.adduser(user);
-        userDao.insert(user);
+        int i=userDao.insert(user);
+        return user;
+    }
+
+    public List<UserInfo> selectByName(String name){
+        List<UserInfo> user=userDao.findUserByName(name);
         return user;
     }
 

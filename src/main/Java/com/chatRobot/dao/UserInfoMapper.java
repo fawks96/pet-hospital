@@ -19,7 +19,7 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
 
-    public UserInfo findUserByName(String username);
+    List<UserInfo> findUserByName(String username);
 
     //public UserInfo adduser(UserInfo user);
 
