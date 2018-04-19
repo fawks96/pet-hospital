@@ -35,10 +35,11 @@ public class RolePlayTest {
             System.out.print(procedureRes.get(i).getRole_id());
             System.out.println(procedureRes.get(i).getStep());
         }*/
-        Integer role=1;
+        Integer role=2;
         List<procedureList>procedureLists=new ArrayList<>();
-        List<String> domain=rolePlayService.getAllDomain(1);
+        List<String> domain=rolePlayService.getAllDomain(role);
         System.out.println(domain.size());
+        System.out.println(domain.get(0));
         for(int i=0;i<domain.size();i++){
             procedureList procedureList=new procedureList();
             procedureList.setLabel(domain.get(i));

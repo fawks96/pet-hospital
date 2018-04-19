@@ -30,7 +30,7 @@ public class RolePlayController {
         Integer role=Integer.parseInt(request.getParameter("role"));
 
         List<procedureList>procedureLists=new ArrayList<>();
-        List<String> domain=rolePlayService.getAllDomain(1);
+        List<String> domain=rolePlayService.getAllDomain(role);
         if(domain.size()>0) {
             for (int i = 0; i < domain.size(); i++) {
                 procedureList procedureList = new procedureList();
