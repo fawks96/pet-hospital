@@ -22,4 +22,8 @@ public interface DepartmentInfoMapper {
 
     List<DepartmentInfo> selectAll();
 
+    List<Integer> getFacilityIds(Integer id);
+
+    List<Integer> getDrugIds(Integer id);
+
 }

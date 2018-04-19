@@ -52,7 +52,7 @@ public class ImgUploadController {
                 in.close();
                 res.setStatus("Ok");
             } catch (Exception e) {
-                res.setStatus("fail");
+                res.setStatus("fail " + e.getMessage());
                 e.printStackTrace();
             }
         }

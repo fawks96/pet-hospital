@@ -113,6 +113,10 @@
   </update>
 
   <select id="selectAll" resultType="com.chatRobot.model.FacilityInfo">
-    select * from facility
+  select * from facility
+</select>
+
+  <select id="getById" resultType="com.chatRobot.model.FacilityInfo">
+    select * from facility where id = #{id}
   </select>
 </mapper>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chatRobot.dao.DepartmentInfoMapper">
-  <resultMap id="BaseResultMap" type="com.chatRobot.model.DepartmentInfo">
+<mapper namespace="com.chatRobot.dao.DrugInfoMapper">
+  <resultMap id="BaseResultMap" type="com.chatRobot.model.DrugInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="role" jdbcType="INTEGER" property="role" />
     <result column="picture" jdbcType="VARCHAR" property="picture" />
     <result column="info" jdbcType="VARCHAR" property="info" />
   </resultMap>
@@ -38,15 +36,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, role, picture, info
+    id, picture, info
   </sql>
-  <select id="selectByExample" parameterType="com.chatRobot.model.DepartmentInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.chatRobot.model.DrugInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from department
+    from drug
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -57,30 +55,24 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from department
+    from drug
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from department
+    delete from drug
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chatRobot.model.DepartmentInfo">
-    insert into department (id, name, role, 
-      picture, info)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
-      #{picture,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.chatRobot.model.DrugInfo">
+    insert into drug (id, picture, info
+      )
+    values (#{id,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.chatRobot.model.DepartmentInfo">
-    insert into department
+  <insert id="insertSelective" parameterType="com.chatRobot.model.DrugInfo">
+    insert into drug
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="role != null">
-        role,
       </if>
       <if test="picture != null">
         picture,
@@ -93,12 +85,6 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="role != null">
-        #{role,jdbcType=INTEGER},
-      </if>
       <if test="picture != null">
         #{picture,jdbcType=VARCHAR},
       </if>
@@ -107,15 +93,9 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chatRobot.model.DepartmentInfo">
-    update department
+  <update id="updateByPrimaryKeySelective" parameterType="com.chatRobot.model.DrugInfo">
+    update drug
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="role != null">
-        role = #{role,jdbcType=INTEGER},
-      </if>
       <if test="picture != null">
         picture = #{picture,jdbcType=VARCHAR},
       </if>
@@ -125,25 +105,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chatRobot.model.DepartmentInfo">
-    update department
-    set name = #{name,jdbcType=VARCHAR},
-      role = #{role,jdbcType=INTEGER},
-      picture = #{picture,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.chatRobot.model.DrugInfo">
+    update drug
+    set picture = #{picture,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectAll" resultType="com.chatRobot.model.DepartmentInfo">
-    select * from department
-  </select>
-
-  <select id="getFacilityIds" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-    select facility_id from dep_fac where department_id = #{id}
-  </select>
-
-  <select id="getDrugIds" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-    select drug_id from dep_dru where department_id = #{id}
+  <select id="getById" resultType="com.chatRobot.model.DrugInfo" parameterType="java.lang.Integer">
+    select * from drug where id = #{id}
   </select>
 
 </mapper>

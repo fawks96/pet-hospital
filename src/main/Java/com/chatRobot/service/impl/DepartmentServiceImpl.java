@@ -17,4 +17,15 @@ public class DepartmentServiceImpl implements DepartmentService{
     {
         return dao.selectAll();
     }
+
+    public List<Integer> getFacilityIds(Integer id)
+    {
+        return dao.getFacilityIds(id);
+    }
+
+    public List<Integer> getDrugIds(Integer id)
+    {
+        return dao.getDrugIds(id);
+    }
+
 }

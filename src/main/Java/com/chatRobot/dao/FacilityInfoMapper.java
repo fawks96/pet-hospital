@@ -20,4 +20,6 @@ public interface FacilityInfoMapper {
     int updateByPrimaryKey(FacilityInfo record);
 
     List<FacilityInfo> selectAll();
+
+    FacilityInfo getById(Integer id);
 }

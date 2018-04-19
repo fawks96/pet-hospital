@@ -16,4 +16,10 @@ public class FacilityServiceImpl implements FacilityService{
     {
         return dao.selectAll();
     }
+
+    public FacilityInfo getById(Integer id)
+    {
+        return dao.getById(id);
+    }
+
 }
