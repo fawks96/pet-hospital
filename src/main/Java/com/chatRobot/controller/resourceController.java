@@ -31,4 +31,10 @@ public class resourceController {
     {
         return "deploy";
     }
+
+    @RequestMapping(value = "/deploy2", method = RequestMethod.GET)
+    public String deploy2()
+    {
+        return "deploy2";
+    }
 }
