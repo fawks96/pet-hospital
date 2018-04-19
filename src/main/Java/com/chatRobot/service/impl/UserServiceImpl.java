@@ -21,11 +21,11 @@ public class UserServiceImpl implements IUserService {
     /* 登陆验证 */
     public UserInfo checkLogin(String username, String password) {
         //根据用户名实例化用户对象
-        /*
-        UserInfo user = userDao.findUserByName(username);
-        if (user != null && user.getPwd().equals(password)) {
-            return user;
-        }*/
+
+        List<UserInfo> user = userDao.findUserByName(username);
+        if (user.size()!=0 && user.get(0).getPwd().equals(password)) {
+            return user.get(0);
+        }
         return null;
     }
 

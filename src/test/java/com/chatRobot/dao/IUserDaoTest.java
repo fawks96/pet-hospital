@@ -25,20 +25,24 @@ public class IUserDaoTest {
 
     @Test
     public void testLogin() throws Exception{
-        String name="admin";
-        String password = "123";
+        String name="666666";
+        String password = "666666";
         UserInfo user = userService.checkLogin(name, password);
         System.out.println(user.getPwd());
     }
 
     @Test
     public void testRegister() throws Exception{
-        if(userService.selectByName("zhang")!=null){
+        List<UserInfo> userInfos=userService.selectByName("666666");
+        System.out.println(userInfos.size());
+        //System.out.println(userInfos.get(0).getName());
+        if(userService.selectByName("666666").size()!=0){
+            System.out.println();
             System.out.println("chongfu");
         }
         else {
             UserInfo user = new UserInfo();
-            user.setName("zhang");
+            user.setName("666666");
             user.setPwd("123");
             user.setAuth(1);
             userService.addUser(user);

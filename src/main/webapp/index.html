@@ -53,3 +53,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
 
 </head>
+<body>
+
+<div class="form-group  col-lg-6">
+    <div class="col-sm-8">
+        <input type="text" id="code" name="code" class="form-control" style="width:250px;"/>
+        <img id="imgObj" alt="验证码" src="/pet/user/validateCode" onclick="changeImg()"/>
+        <a href="#" onclick="changeImg()">换一张</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // 刷新图片
+    function changeImg() {
+        var imgSrc = $("#imgObj");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", changeUrl(src));
+    }
+    //为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+    function changeUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        var index = url.indexOf("?",url);
+        if (index > 0) {
+            urlnew = urlnew.substring(index, urlnew.indexOf(url, "?"));
+        }
+        if ((url.indexOf("&") >= 0)) {
+            url = url + "×tamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+</script>
+</body>
