@@ -9,11 +9,15 @@ public class DrugInfo implements Serializable {
 
     private String info;
 
+    private String name;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
     }
+
+    public String getName(){return name;};
 
     public void setId(Integer id) {
         this.id = id;
