@@ -15,5 +15,6 @@ public interface DiseaseInfoService {
     public List<String> getCategory();
 
 
-    public List<DiseaseInfo> getAllCategory();
+    public List<String> getAllCategory();
+
 }

@@ -121,9 +121,10 @@
     select distinct(category) from disease
   </select>
 
-  <select id="getAllCategory" resultType="com.chatRobot.model.DiseaseInfo">
-    select * from disease
+  <select id="getAllCategory" resultType="java.lang.String">
+    select distinct(category) from question
   </select>
+
 
 </mapper>
 

@@ -100,25 +100,10 @@ public class CaseController {
     List<String> getDetail() throws Exception{
 
 
-         List<DiseaseInfo> list = diseaseInfoService.getAllCategory();
+         return diseaseInfoService.getAllCategory();
 
-         List<String> resList = new ArrayList<>();
-
-         for (int i = 0; i < list.size(); i++)
-         {
-             resList.add(list.get(i).getCategory());
-
-         }
-         Set set = new HashSet();
-         List<String>newList = new ArrayList();
-         for (String cd:resList)
-         {
-             if (set.add(cd))
-             {
-                 newList.add(cd);
-             }
-         }
-         return newList;
 
     }
+
+
 }

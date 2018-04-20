@@ -22,6 +22,8 @@ public interface DiseaseInfoMapper {
 
     List<String> getCategory();
 
-    List<DiseaseInfo> getAllCategory();
+    List<String> getAllCategory();
+
+
 
 }
