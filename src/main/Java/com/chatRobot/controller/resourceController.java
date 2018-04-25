@@ -37,4 +37,29 @@ public class resourceController {
     {
         return "deploy2";
     }
+
+    @RequestMapping(value = "/3d", method = RequestMethod.GET)
+    public String dd()
+    {
+        return "3D";
+    }
+
+    @RequestMapping(value = "/3D", method = RequestMethod.GET)
+    public String dd2()
+    {
+        return "3D";
+    }
+
+    @RequestMapping(value = "/performance", method = RequestMethod.GET)
+    public String performance()
+    {
+        return "performance";
+    }
+
+    @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
+    public String fileUpload()
+    {
+        return "fileUpload";
+    }
 }
+

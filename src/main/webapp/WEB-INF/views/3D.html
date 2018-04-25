@@ -5,7 +5,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>项目部署相关操作、注意事项汇总</title>
+
 
 
 <style type="text/css">
@@ -328,128 +328,107 @@ kbd {
 
 <body>
 
-<h1 id="toc_0">项目部署相关操作、注意事项汇总</h1>
+<h1 id="toc_0">3D导览实现</h1>
 
-<p>&ensp;</p>
+<h3 id="toc_1">3D导览功能实现地址：<a href="http://www.ecnupet.cn/3d">www.ecnupet.cn/3d</a></h3>
 
-<h2 id="toc_1">云服务器购买</h2>
+<h3 id="toc_2">先看最终效果：</h3>
 
-<p>这个购买渠道就很广了，阿里云，腾讯云，或者国外的主机提供商等等。考虑到访问速度的原因，我考虑购买国内的云主机提供商，又由于对阿里好感度不高，故选择了购买了<a href="https://cloud.tencent.com/product/cvm">腾讯云主机</a>。而且验证了学生身份后能够享受到很低的价格。学生就是好啊。</p>
+<p><img src="http://www.ecnupet.cn/img/3D1.png" alt=""></p>
 
-<p>然后配置一下想要购买的配置就好了：</p>
+<p><img src="http://www.ecnupet.cn/img/3D2.png" alt=""></p>
 
-<p><img src="http://www.ecnupet.cn/img/config.png" alt=""></p>
+<p><img src="http://www.ecnupet.cn/img/3D3.png" alt=""></p>
 
-<p>&ensp;</p>
+<h2 id="toc_3">3D素材来源</h2>
 
-<h2 id="toc_2">云服务器配置</h2>
-
-<p>购买成功后进入云主机的控制台：</p>
-
-<p><img src="http://www.ecnupet.cn/img/controller.jpg" alt=""></p>
-
-<p>点击云主机的“更多”按钮，有一个选项是重装系统，可以方便的选择一种系统镜像进行重装，重装完成后新系统便内置了所有所需的开发环境（Tomcat、JDK、Mysql应有尽有有木有！！），不用费尽心思去一个个软件安装了。</p>
-
-<p>系统安装好后，点击云主机的登陆按钮，我们进入webshell的控制台：</p>
-
-<p><img src="http://www.ecnupet.cn/img/webshell.jpg" alt=""></p>
-
-<p>由于是高度定制化的一套系统，可以使用类似</p>
-
-<div><pre><code class="language-none">service tomcat start/stop</code></pre></div>
-
-<p>这样的命令启动/终止tomcat。</p>
-
-<p>Tomcat 在机器上的位置为：/usr/local/tomcat。</p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_3">云服务器登录</h2>
-
-<p>除了webshell的登陆方式外，还可使用任何具有SSH功能的终端/客户端，以SSH的方式登录到服务器上：</p>
-
-<p><img src="http://www.ecnupet.cn/img/server_login.jpg" width="70%"></p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_4">云服务器安全</h2>
-
-<p>服务器初始的密码是一串很长的初始码，嫌麻烦的我把登录密码改成了123456，然后当晚服务器就被黑客暴力破解了：</p>
-
-<p><img src="http://www.ecnupet.cn/img/message.jpg" width="50%"></p>
-
-<p>最好是关闭密码登录方式，只开启秘钥登录方式，安全系数就很高了。</p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_5">云服务器访问权限</h2>
-
-<h3 id="toc_6">安全组权限</h3>
-
-<p>在服务器的安全组规则上添加对应的放行规则，使得对应的IP地址能够访问对应的端口：</p>
-
-<p><img src="http://www.ecnupet.cn/img/security-group.jpg" alt=""></p>
-
-<p><img src="http://www.ecnupet.cn/img/security-add.jpg" alt=""></p>
-
-<p>&ensp;</p>
-
-<h3 id="toc_7">防火墙权限</h3>
-
-<p>服务器自带的防火墙可能会拦截8080等端口的值，因此不能正常访问tomcat的8080端口。</p>
-
-<p>测试8080端口在防火墙是否开启：</p>
-
-<div><pre><code class="language-none">firewall-cmd --query-port=8080/tcp </code></pre></div>
-
-<p>如果没有开启的话，让防火墙开放8080端口:</p>
-
-<div><pre><code class="language-none">firewall-cmd --permanent --zone=public --add-port=8080/tcp</code></pre></div>
-
-<p>然后重启防火墙即可：</p>
-
-<div><pre><code class="language-none">systemctl stop firewalld（关闭防火墙）
-systemctl start firewalld (开启防火墙)</code></pre></div>
-
-<p>&ensp;</p>
-
-<h2 id="toc_8">云服务器管理工具</h2>
-
-<p><a href="https://filezilla-project.org/">FileZilla</a> 工具可以方便的对云主机上的文件进行操作，也可以方便的在本地机与云主机间进行文件交换：</p>
-
-<p><img src="http://www.ecnupet.cn/img/filezilla.png" alt=""></p>
-
-<h2 id="toc_9">项目部署</h2>
-
-<p>本组的项目采用前后端分离的方式开发、部署，其中前端部分部署在nginx中，后端部分部署在tomcat中。</p>
+<p><a href="http://www.cnquanjing.com/search?word=%E5%8C%BB%E9%99%A2">中国全景网</a> 下的 </p>
 
 <ul>
-<li><p>后端</p>
+<li><p><a href="http://www.cnquanjing.com/tour/b2c91768ab6532ff">北京协和医院VR全景</a></p></li>
+<li><p><a href="http://www.cnquanjing.com/tour/82e9338d00e83751">北京大学第一医院VR全景</a></p></li>
+<li><p><a href="http://www.cnquanjing.com/tour/82544970b09387b5">山东淄博临淄区人民医院</a></p></li>
+</ul>
 
-<p>以Intellij IDEA为例，依次选择Build菜单-&gt;Build Artifacts-&gt;war-&gt;Rebuild，然后会在项目target文件夹下生成war包，将该war包放置在服务器tomcat下的webapps路径下（/usr/local/tomcat/webapps）。</p>
+<h2 id="toc_4">使用框架</h2>
 
-<p>配置/usr/local/tomcat/conf/vhost下的localhost.xml:</p>
+<h3 id="toc_5">基于 <a href="https://krpano.com/">krpano</a> 框架进行3D导览的开发。</h3>
 
-<div><pre><code class="language-none">&lt;Host name=&quot;localhost&quot; appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
-&lt;Context path=&quot;&quot; docBase=&quot;/usr/local/tomcat/webapps/pet&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
+<p>krpano viewer 是一个小型的高性能的，适用于交互性的漫游图的展示器。</p>
 
-&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot; 
-     prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot; pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;
-&lt;/Host&gt;
+<p>它可以应用在Flash或HTML5应用中。它是跨平台的。</p>
+
+<p>总体来说，pano<em>f、pano</em>b、pano<em>d、pano</em>l、pano<em>r、pano</em>u 六个方位的图构成了一个全景的场景。每个场景还需要提供一张preview综合图和一张thumb略缩图。</p>
+
+<h2 id="toc_6">更为具体的一些技术细节</h2>
+
+<ul>
+<li><p>Action.xml</p>
+
+<p>Action.xml是配置工作函数的文件，具体格式如下：</p>
+
+<div><pre><code class="language-none">&lt;action name=&quot;xxx&quot;&gt;
+你的代码
+ &lt;/action&gt;
 </code></pre></div>
 
-<p>(将docBase值设为项目war包部署路径)</p>
+<p>Action里部分参数的定义如下：</p>
 
-<p>最后重启tomcat，即完成部署。</p></li>
-<li><p>前端</p>
+<p>%1 = name of the hotspot to move</p>
 
-<p>将项目使用webpack进行打包，将生成的dist文件夹和首页html放置于tomcat定义的项目部署文件夹下即完成部署。</p>
+<p>%2 = new scene</p>
 
-<p>项目部署地址：www.ecnupet.cn</p>
+<p>%3 = hlookat startup position in the new scene</p>
 
-<p>实际部署地址：111.231.62.36:8080</p>
+<p>%4 = vlookat startup position in the new scene</p>
 
-<p>项目后端部署地址：111.231.62.36:8081</p></li>
+<p>%5 = startup fov in the new scene</p>
+
+<p>部分函数如下：</p>
+
+<p>Get() 获取数据</p>
+
+<p>Set(xx, xx)设置数据</p>
+
+<p>Copy() 复制</p>
+
+<p>Loadscene 加载新的场景</p>
+
+<p>If( condition, then, else) 判断逻辑</p></li>
+<li><p>Layer.xml</p>
+
+<p>Layer.xml配置通用的界面元素，将对所有scene生效。</p>
+
+<p>写法如下：</p>
+
+<div><pre><code class="language-none">&lt;layer name=&quot;layer_location&quot; keep=&quot;true&quot; 
+
+    type=&quot;container&quot; width=&quot;220&quot; height=&quot;80&quot;
+
+        align=&quot;middletop&quot; bgcolor=&quot;0x333333&quot; 
+
+        bgalpha=&quot;0.6&quot;   x=&quot;0&quot; y=&quot;40&quot;&gt;
+
+&lt;/layer&gt;</code></pre></div>
+
+<p>其中layer可互相嵌套。 name是唯一标识，keep是是否一直显示，type    是容器类型，width是宽度，height是高度，align是摆列方式，    bgcolor是背景颜色 bgalpha是透明度 x和y是偏移量。</p></li>
+<li><p>各个scene配置的xml</p>
+
+<p>在这里配置各个场景scene，写法如下</p>
+
+<div><pre><code class="language-none">&lt;scene name=&quot;&quot; title=&quot;&quot; onstart=&quot;&quot; thumburl=&quot;&quot; 
+lat=&quot;&quot; lng=&quot;&quot; heading=&quot;&quot;&gt;
+    &lt;view hlookat=&quot;0&quot; vlookat=&quot;0&quot; fovtype=&quot;MFOV&quot; fov=&quot;120&quot; maxpixelzoom=&quot;2.0&quot; fovmin=&quot;70&quot; fovmax=&quot;140&quot; limitview=&quot;auto&quot; /&gt;
+    &lt;preview url=&quot;&quot; /&gt;
+    &lt;image&gt;
+        &lt;cube url=&quot;&quot; /&gt;
+        &lt;cube url=&quot;&quot; devices=&quot;mobile&quot; /&gt;
+    &lt;/image&gt;
+&lt;/scene&gt;</code></pre></div>
+
+<p>Scene的参数 name是唯一标识，onstart是加载场景时触发的事件，thumburl是缩略图，lat和lng是坐标。</p>
+
+<p>View是整个视图的标签，preview是缩略图的标签。Image是存放各个角度的图片的标签。Cube则加载不同方位的全景图片。 device设置为mobile是适配手机。</p></li>
 </ul>
 
 

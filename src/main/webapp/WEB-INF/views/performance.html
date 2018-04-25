@@ -5,7 +5,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>项目部署相关操作、注意事项汇总</title>
+
 
 
 <style type="text/css">
@@ -328,129 +328,113 @@ kbd {
 
 <body>
 
-<h1 id="toc_0">项目部署相关操作、注意事项汇总</h1>
+<h1 id="toc_0">网页性能优化实践之路</h1>
 
-<p>&ensp;</p>
+<h3 id="toc_1">把网页部署到服务器上仅仅是个开始：漫漫性能调优之路的开始。</h3>
 
-<h2 id="toc_1">云服务器购买</h2>
-
-<p>这个购买渠道就很广了，阿里云，腾讯云，或者国外的主机提供商等等。考虑到访问速度的原因，我考虑购买国内的云主机提供商，又由于对阿里好感度不高，故选择了购买了<a href="https://cloud.tencent.com/product/cvm">腾讯云主机</a>。而且验证了学生身份后能够享受到很低的价格。学生就是好啊。</p>
-
-<p>然后配置一下想要购买的配置就好了：</p>
-
-<p><img src="http://www.ecnupet.cn/img/config.png" alt=""></p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_2">云服务器配置</h2>
-
-<p>购买成功后进入云主机的控制台：</p>
-
-<p><img src="http://www.ecnupet.cn/img/controller.jpg" alt=""></p>
-
-<p>点击云主机的“更多”按钮，有一个选项是重装系统，可以方便的选择一种系统镜像进行重装，重装完成后新系统便内置了所有所需的开发环境（Tomcat、JDK、Mysql应有尽有有木有！！），不用费尽心思去一个个软件安装了。</p>
-
-<p>系统安装好后，点击云主机的登陆按钮，我们进入webshell的控制台：</p>
-
-<p><img src="http://www.ecnupet.cn/img/webshell.jpg" alt=""></p>
-
-<p>由于是高度定制化的一套系统，可以使用类似</p>
-
-<div><pre><code class="language-none">service tomcat start/stop</code></pre></div>
-
-<p>这样的命令启动/终止tomcat。</p>
-
-<p>Tomcat 在机器上的位置为：/usr/local/tomcat。</p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_3">云服务器登录</h2>
-
-<p>除了webshell的登陆方式外，还可使用任何具有SSH功能的终端/客户端，以SSH的方式登录到服务器上：</p>
-
-<p><img src="http://www.ecnupet.cn/img/server_login.jpg" width="70%"></p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_4">云服务器安全</h2>
-
-<p>服务器初始的密码是一串很长的初始码，嫌麻烦的我把登录密码改成了123456，然后当晚服务器就被黑客暴力破解了：</p>
-
-<p><img src="http://www.ecnupet.cn/img/message.jpg" width="50%"></p>
-
-<p>最好是关闭密码登录方式，只开启秘钥登录方式，安全系数就很高了。</p>
-
-<p>&ensp;</p>
-
-<h2 id="toc_5">云服务器访问权限</h2>
-
-<h3 id="toc_6">安全组权限</h3>
-
-<p>在服务器的安全组规则上添加对应的放行规则，使得对应的IP地址能够访问对应的端口：</p>
-
-<p><img src="http://www.ecnupet.cn/img/security-group.jpg" alt=""></p>
-
-<p><img src="http://www.ecnupet.cn/img/security-add.jpg" alt=""></p>
-
-<p>&ensp;</p>
-
-<h3 id="toc_7">防火墙权限</h3>
-
-<p>服务器自带的防火墙可能会拦截8080等端口的值，因此不能正常访问tomcat的8080端口。</p>
-
-<p>测试8080端口在防火墙是否开启：</p>
-
-<div><pre><code class="language-none">firewall-cmd --query-port=8080/tcp </code></pre></div>
-
-<p>如果没有开启的话，让防火墙开放8080端口:</p>
-
-<div><pre><code class="language-none">firewall-cmd --permanent --zone=public --add-port=8080/tcp</code></pre></div>
-
-<p>然后重启防火墙即可：</p>
-
-<div><pre><code class="language-none">systemctl stop firewalld（关闭防火墙）
-systemctl start firewalld (开启防火墙)</code></pre></div>
-
-<p>&ensp;</p>
-
-<h2 id="toc_8">云服务器管理工具</h2>
-
-<p><a href="https://filezilla-project.org/">FileZilla</a> 工具可以方便的对云主机上的文件进行操作，也可以方便的在本地机与云主机间进行文件交换：</p>
-
-<p><img src="http://www.ecnupet.cn/img/filezilla.png" alt=""></p>
-
-<h2 id="toc_9">项目部署</h2>
-
-<p>本组的项目采用前后端分离的方式开发、部署，其中前端部分部署在nginx中，后端部分部署在tomcat中。</p>
+<h3 id="toc_2">我们看此时的网页加载速度：</h3>
 
 <ul>
-<li><p>后端</p>
+<li><p>主界面 （A组）</p>
 
-<p>以Intellij IDEA为例，依次选择Build菜单-&gt;Build Artifacts-&gt;war-&gt;Rebuild，然后会在项目target文件夹下生成war包，将该war包放置在服务器tomcat下的webapps路径下（/usr/local/tomcat/webapps）。</p>
+<p>最慢的时候是20多秒才能加载完：</p>
 
-<p>配置/usr/local/tomcat/conf/vhost下的localhost.xml:</p>
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A2.jpg" alt=""></p>
 
-<div><pre><code class="language-none">&lt;Host name=&quot;localhost&quot; appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
-&lt;Context path=&quot;&quot; docBase=&quot;/usr/local/tomcat/webapps/pet&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
+<p>快的时候也需要10多秒：</p>
 
-&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot; 
-     prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot; pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;
-&lt;/Host&gt;
-</code></pre></div>
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A22.png" alt=""></p></li>
+<li><p>管理界面 （B组）</p>
 
-<p>(将docBase值设为项目war包部署路径)</p>
+<p>最慢的时候是20多秒才能加载完：</p>
 
-<p>最后重启tomcat，即完成部署。</p></li>
-<li><p>前端</p>
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A23.png" alt=""></p>
 
-<p>将项目使用webpack进行打包，将生成的dist文件夹和首页html放置于tomcat定义的项目部署文件夹下即完成部署。</p>
+<p>快的时候也需要10多秒：</p>
 
-<p>项目部署地址：www.ecnupet.cn</p>
-
-<p>实际部署地址：111.231.62.36:8080</p>
-
-<p>项目后端部署地址：111.231.62.36:8081</p></li>
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A24.png" alt=""></p></li>
 </ul>
+
+<h2 id="toc_3">原因分析</h2>
+
+<p>我们通过network通信可以看出，AB两组的项目所耗加载时间最长的都是vendor.js文件：</p>
+
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A22.png" alt=""></p>
+
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E6%85%A23.png" alt=""></p>
+
+<p>此vendor.js文件包含vue.js项目webpack打包后生成的一些第三方库代码。</p>
+
+<h2 id="toc_4">尝试优化</h2>
+
+<p>查阅 <a href="https://blog.csdn.net/qq_35844177/article/details/78599064?locationNum=4&amp;fps=1">网上资料</a> 后我们发现，解决方案是把项目中用到的第三方组件库采用cdn引入的方式，来降低vendor.js的体积大小，具体来说进行以下操作：</p>
+
+<p>1.在项目根目录index.html使用cdn节点导入组件库</p>
+
+<div><pre><code class="language-none">&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+&lt;!-- 先引入 Vue --&gt;
+&lt;!--开发环境--&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/vue/2.5.3/vue.js&quot;&gt;&lt;/script&gt;
+&lt;!--生产环境--&gt;
+&lt;!--&lt;script src=&quot;https://cdn.bootcss.com/vue/2.5.3/vue.min.js&quot;&gt;&lt;/script&gt;--&gt;
+&lt;!-- 引入组件库 --&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/axios/0.17.1/axios.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/element-ui/1.4.10/index.js&quot;&gt;&lt;/script&gt;</code></pre></div>
+
+<p>2.在项目根目录下build/webpack.base.config.js中添加externals</p>
+
+<div><pre><code class="language-none">externals: {
+    vue: &#39;Vue&#39;,
+    &#39;element-ui&#39;: &#39;element-ui&#39;,
+    &#39;axios&#39;:&#39;axios&#39;,
+  },</code></pre></div>
+
+<p>3.main.js中去掉Vue.use(...)，若没去掉webpack还是会把对应的依赖进行打包。</p>
+
+<p>经过这样的操作，再加上对一些资源采用按需引入的写法后，我们重新进行打包，发现生成的vendor.js文件确实有减少，降低到900KB，但是仍需要很长(超过10秒)的加载时间：</p>
+
+<p><img src="http://www.ecnupet.cn/img/900KB.jpg" alt=""></p>
+
+<h2 id="toc_5">进一步优化</h2>
+
+<p>那么既然是vendor.js这个文件太大了，那么我们直接将这整个文件cdn化了，不就可以了吗？ 答案是可以的！更进一步的，我们如果把整个网站的资源都cdn化了，那不加载任何资源都很快了吗？</p>
+
+<p>带着这样的想法，我们对整个域名（www.ecnupet.cn 和 ecnupet.cn）进行cdn加速：</p>
+
+<p><img src="http://www.ecnupet.cn/img/CDN.jpg" alt=""></p>
+
+<p>然后我们来看效果：</p>
+
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E5%BF%AB%E5%BF%AB.jpg" alt=""></p>
+
+<h2 id="toc_6">部署困局</h2>
+
+<p>进行了网站全局cdn加速后，由于cdn服务的限制，只能针对一个80/8080/443端口进行加速，其余端口就处于不可访问状态，而我们有两个项目需要进行部署，无法整合进单一端口中，于是只能将B组的管理后台项目移出域名访问域，使用IP地址在其他的端口（8081）访问。</p>
+
+<h2 id="toc_7">换种姿势的CDN</h2>
+
+<p>将管理后台撤出域名的cdn加速后，访问速度依然是原来的冗长的时间，那么怎么办呢？这个时候我们采用手动cdn的方式，将index.html中引用的vendor.js资源传到云端，然后利用它的cdn地址进行访问。</p>
+
+<p>那么如何上传一个文件，获取其对应的cdn地址呢？</p>
+
+<p>我们利用了腾讯云的对象存储COS(Cloud Object Storage)功能，在COS中创建一个资源存储桶，将文件上传其中，然后开启一个文件访问域名：</p>
+
+<p><img src="http://www.ecnupet.cn/img/cdn_domain.jpg" alt=""></p>
+
+<p>它这个域名下的资源就是cdn的资源，cdn资源地址：
+<code>fawks96-1255774775.file.myqcloud.com + 文件名</code></p>
+
+<p>如：<code>https://fawks96-1255774775.file.myqcloud.com/vendor.6c269e7b30897ddd4709.js</code></p>
+
+<p>然后将index.html中引用的本地vendor.js资源替换成这个cdn资源地址，我们来看优化后的效果：</p>
+
+<p><img src="http://www.ecnupet.cn/img/%E9%80%9F%E5%BA%A6%E5%BE%88%E5%BF%AB%E5%BF%AB2.png" alt=""></p>
+
+<h3 id="toc_8">效果惊人，进入了2秒内完成加载的时代。</h3>
+
+<p>&ensp;</p>
+
+<p>&ensp;</p>
 
 
 
